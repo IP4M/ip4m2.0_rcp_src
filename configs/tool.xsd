@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:element name="tool" type="toolType"></xsd:element>
+
+	<xsd:complexType name="toolType">
+		<xsd:all>
+			<xsd:element name="command" maxOccurs="1" minOccurs="1">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:string">
+							<xsd:attribute name="interpreter"
+								type="xsd:string">
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="inputs" type="inputsType" maxOccurs="1"
+				minOccurs="1">
+			</xsd:element>
+			<xsd:element name="outputs" type="outputsType" maxOccurs="1"
+				minOccurs="1">
+			</xsd:element>
+			<xsd:element name="configfiles" minOccurs="0"
+				maxOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="configfile" minOccurs="0"
+							maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="xsd:string">
+										<xsd:attribute ref="name"
+											use="required">
+										</xsd:attribute>
+									</xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:all>
+		<xsd:attribute name="id" type="idType" use="required"></xsd:attribute>
+		<xsd:attribute name="name" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="version" default="1.0.0">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="description">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="workflow_compatible" type="MyBooleanType"
+			default="true">
+		</xsd:attribute>
+		<xsd:attribute name="helppath" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="iconpath" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:simpleType name="idType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"></xsd:minLength>
+			<xsd:pattern value="[A-Za-z][\w_]*"></xsd:pattern>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="MyBooleanType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])">
+			</xsd:pattern>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:attribute name="name" type="idType"></xsd:attribute>
+
+	<xsd:complexType name="outputsType">
+		<xsd:sequence>
+			<xsd:element name="data" type="dataType"
+				maxOccurs="unbounded" minOccurs="0">
+			</xsd:element>
+			<xsd:element name="html" type="htmlType" maxOccurs="1" minOccurs="1"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="dataType">
+		<xsd:attribute ref="name" use="required"></xsd:attribute>
+		<xsd:attribute name="filename" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+	
+	<xsd:complexType name="htmlType">
+		<xsd:attribute ref="name" use="required"></xsd:attribute>
+		<xsd:attribute name="filename" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:attribute name="format" type="formatType"></xsd:attribute>
+
+	<xsd:attribute name="label" type="labelType"></xsd:attribute>
+
+	<xsd:attribute name="help" type="helpType"></xsd:attribute>
+
+	<xsd:complexType name="inputsType">
+		<xsd:sequence>
+			<xsd:choice maxOccurs="unbounded" minOccurs="0">
+				<xsd:element ref="repeat"></xsd:element>
+				<xsd:element ref="conditional"></xsd:element>
+				<xsd:element ref="param"></xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="repeat" type="repeatType"></xsd:element>
+
+	<xsd:element name="conditional" type="conditionalType"></xsd:element>
+
+	<xsd:element name="param" type="paramType"></xsd:element>
+
+	<xsd:complexType name="repeatType">
+		<xsd:sequence>
+			<xsd:choice maxOccurs="unbounded" minOccurs="0">
+				<xsd:element ref="repeat"></xsd:element>
+				<xsd:element ref="conditional"></xsd:element>
+				<xsd:element ref="param"></xsd:element>
+			</xsd:choice>
+			<xsd:element ref="units" maxOccurs="1" minOccurs="0"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute ref="name" use="required"></xsd:attribute>
+		<xsd:attribute name="title" type="labelType" use="required"></xsd:attribute>
+		<xsd:attribute ref="help"></xsd:attribute>
+		<xsd:attribute name="default" default="0">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:int">
+					<xsd:minInclusive value="0"></xsd:minInclusive>
+					<xsd:maxInclusive value="1024"></xsd:maxInclusive>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="min" default="0">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:int">
+					<xsd:maxInclusive value="1024"></xsd:maxInclusive>
+					<xsd:minInclusive value="0"></xsd:minInclusive>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="max" default="1024">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:int">
+					<xsd:minInclusive value="0"></xsd:minInclusive>
+					<xsd:maxInclusive value="1024"></xsd:maxInclusive>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="conditionalType">
+		<xsd:sequence>
+			<xsd:element name="param" maxOccurs="1" minOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="option" maxOccurs="unbounded"
+							minOccurs="2"></xsd:element>
+					</xsd:sequence>
+					<xsd:attribute ref="name" use="required"></xsd:attribute>
+					<xsd:attribute ref="label"></xsd:attribute>
+					<xsd:attribute ref="help"></xsd:attribute>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="when" type="whenType" maxOccurs="unbounded"
+				minOccurs="0"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute ref="name" use="required"></xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="paramType">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="options" maxOccurs="1"
+					minOccurs="0">
+					<xsd:complexType>
+						<xsd:attribute name="from_file"
+							type="xsd:string" use="required">
+						</xsd:attribute>
+						<xsd:attribute name="display_col"
+							use="required">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:int">
+									<xsd:minInclusive value="1"></xsd:minInclusive>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:attribute>
+						<xsd:attribute name="value_col"
+							use="required">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:int">
+									<xsd:minInclusive value="1"></xsd:minInclusive>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:attribute>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="option" maxOccurs="unbounded"
+					minOccurs="0">
+				</xsd:element>
+			</xsd:choice>
+			<xsd:element name="validator" type="validatorType"
+				maxOccurs="unbounded" minOccurs="0">
+			</xsd:element>
+		</xsd:sequence>
+
+		<xsd:attribute ref="name" use="required"></xsd:attribute>
+		<xsd:attribute name="type" type="typeType" use="required">
+		</xsd:attribute>
+		<xsd:attribute name="optional" type="MyBooleanType"
+			default="false">
+		</xsd:attribute>
+		<xsd:attribute ref="label"></xsd:attribute>
+		<xsd:attribute ref="help"></xsd:attribute>
+		<xsd:attribute name="area" type="MyBooleanType"
+			default="false">
+		</xsd:attribute>
+		<xsd:attribute name="size" type="sizeType" default="15"></xsd:attribute>
+		<xsd:attribute name="value" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="checked" type="MyBooleanType"
+			default="false">
+		</xsd:attribute>
+		<xsd:attribute name="truevalue" type="xsd:string"
+			default="true">
+		</xsd:attribute>
+		<xsd:attribute name="falsevalue" type="xsd:string"
+			default="false">
+		</xsd:attribute>
+		<xsd:attribute ref="format" default="data"></xsd:attribute>
+		<xsd:attribute name="id" type="idType"></xsd:attribute>
+		<xsd:attribute name="lastoutname" type="idType"></xsd:attribute>
+		<xsd:attribute name="display" default="default">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="default"></xsd:enumeration>
+					<xsd:enumeration value="radio"></xsd:enumeration>
+					<xsd:enumeration value="checkboxes"></xsd:enumeration>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="multiple" type="MyBooleanType"
+			default="false">
+		</xsd:attribute>
+		<xsd:attribute name="separator" default=",">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:length value="1"></xsd:length>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="path" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:simpleType name="typeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="text"></xsd:enumeration>
+			<xsd:enumeration value="integer"></xsd:enumeration>
+			<xsd:enumeration value="float"></xsd:enumeration>
+			<xsd:enumeration value="boolean"></xsd:enumeration>
+			<xsd:enumeration value="hidden"></xsd:enumeration>
+			<xsd:enumeration value="select"></xsd:enumeration>
+			<xsd:enumeration value="data"></xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="validatorType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="type" use="required">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="regex"></xsd:enumeration>
+							<xsd:enumeration value="in_range"></xsd:enumeration>
+							<xsd:enumeration value="length"></xsd:enumeration>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="message">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="min" type="xsd:decimal"></xsd:attribute>
+				<xsd:attribute name="max" type="xsd:decimal"></xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="helpType">
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="labelType">
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="formatType">
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="replace"></xsd:whiteSpace>
+			<xsd:minLength value="1"></xsd:minLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sizeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="(\d+|\d+x\d+)"></xsd:pattern>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="option" type="optionType"></xsd:element>
+
+	<xsd:complexType name="optionType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="value" type="xsd:string" use="required"></xsd:attribute>
+				<xsd:attribute name="selected" type="MyBooleanType"
+					default="false"></xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="whenType">
+		<xsd:sequence>
+			<xsd:choice maxOccurs="unbounded" minOccurs="0">
+				<xsd:element ref="repeat"></xsd:element>
+				<xsd:element ref="conditional"></xsd:element>
+				<xsd:element ref="param"></xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="value" type="xsd:string" use="required"></xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:element name="units" type="unitsType"></xsd:element>
+
+	<xsd:complexType name="unitsType">
+		<xsd:sequence>
+			<xsd:element ref="unit" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="unit" type="unitType"></xsd:element>
+
+	<xsd:complexType name="unitType">
+		<xsd:sequence>
+			<xsd:choice maxOccurs="unbounded" minOccurs="0">
+				<xsd:element ref="repeat"></xsd:element>
+				<xsd:element ref="conditional"></xsd:element>
+				<xsd:element ref="param"></xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

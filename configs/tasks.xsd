@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:element name="task" type="taskType"></xsd:element>
+
+	<xsd:complexType name="taskType">
+        <xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="xmlinfopath" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="taskname" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="taskstate" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="starttime" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="endtime" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="commandline" type="xsd:string"></xsd:attribute>
+        <xsd:attribute name="stderrpath" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="stdoutpath" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="htmloutpath" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="outputsfolderpath" type="xsd:string"></xsd:attribute>
+		<xsd:attribute name="taskfolderpath" type="xsd:string"></xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:element name="tasks" type="tasksType"></xsd:element>
+
+	<xsd:complexType name="tasksType">
+		<xsd:sequence>
+			<xsd:choice maxOccurs="unbounded" minOccurs="0">
+				<xsd:element ref="task"></xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component id="com.sixthhosp.gcmpa" version="2">
+    <resource path="src/com/sixthhosp/gcmpa/views/filetree/FileTreeViewer.java" type="com.sixthhosp.gcmpa.views.filetree.FileTreeViewer">
+        <filter id="571473929">
+            <message_arguments>
+                <message_argument value="TreeViewer"/>
+                <message_argument value="FileTreeViewer"/>
+            </message_arguments>
+        </filter>
+    </resource>
+    <resource path="src/com/sixthhosp/gcmpa/views/tasktree/TaskTableViewer.java" type="com.sixthhosp.gcmpa.views.tasktree.TaskTableViewer">
+        <filter id="571473929">
+            <message_arguments>
+                <message_argument value="TableViewer"/>
+                <message_argument value="TaskTableViewer"/>
+            </message_arguments>
+        </filter>
+    </resource>
+</component>

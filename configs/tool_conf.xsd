@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="toolbox" type="toolboxType"></xsd:element>
+
+	<xsd:complexType name="toolboxType">
+		<xsd:sequence>
+			<xsd:element ref="section" minOccurs="0" maxOccurs="unbounded">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="section" type="sectionType"></xsd:element>
+	<xsd:complexType name="sectionType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="tool"></xsd:element>
+				<xsd:element ref="label"></xsd:element>
+				<xsd:element ref="section"></xsd:element>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute ref="name"></xsd:attribute>
+		<xsd:attribute ref="id" use="required"></xsd:attribute>
+		<xsd:attribute ref="icon"></xsd:attribute>
+	</xsd:complexType>
+	<xsd:element name="tool" type="toolType"></xsd:element>
+	<xsd:element name="label" type="labelType"></xsd:element>
+	<xsd:attribute name="name" type="xsd:string"></xsd:attribute>
+	<xsd:attribute name="id" type="idType"></xsd:attribute>
+	<xsd:simpleType name="idType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"></xsd:minLength>
+			<xsd:pattern value="[A-Za-z][\w_]*"></xsd:pattern>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="toolType">
+		<xsd:attribute ref="file" use="required"></xsd:attribute>
+		<xsd:attribute ref="help"></xsd:attribute>
+		<xsd:attribute ref="icon"></xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="labelType">
+		<xsd:attribute ref="text"></xsd:attribute>
+		<xsd:attribute ref="id" use="required"></xsd:attribute>
+	</xsd:complexType>
+	<xsd:attribute name="text" type="xsd:string"></xsd:attribute>
+	<xsd:attribute name="file" type="xsd:string"></xsd:attribute>
+	<xsd:attribute name="help" type="xsd:string"></xsd:attribute>
+	<xsd:attribute name="icon" type="xsd:string"></xsd:attribute>
+</xsd:schema>
